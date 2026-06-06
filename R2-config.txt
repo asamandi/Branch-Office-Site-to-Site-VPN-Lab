@@ -1,0 +1,46 @@
+enable
+configure terminal
+
+hostname R2
+no ip domain-lookup
+
+interface gigabitEthernet0/0
+ description Site-B-LAN
+ ip address 192.168.20.1 255.255.255.0
+ no shutdown
+exit
+
+interface gigabitEthernet0/1
+ description WAN-to-ISP
+ ip address 20.0.0.2 255.255.255.252
+ crypto map VPN-MAP
+ no shutdown
+exit
+
+! Static route from R2 to Site-A LAN
+ip route 192.168.10.0 255.255.255.0 20.0.0.1
+
+crypto isakmp policy 10
+ encryption aes
+ hash sha
+ authentication pre-share
+ group 2
+ lifetime 86400
+exit
+
+crypto isakmp key VPN123 address 10.0.0.1
+
+ip access-list extended VPN-TRAFFIC
+ permit ip 192.168.20.0 0.0.0.255 192.168.10.0 0.0.0.255
+exit
+
+crypto ipsec transform-set VPN-SET esp-aes esp-sha-hmac
+
+crypto map VPN-MAP 10 ipsec-isakmp
+ set peer 10.0.0.1
+ set transform-set VPN-SET
+ match address VPN-TRAFFIC
+exit
+
+end
+write memory
