@@ -19,7 +19,7 @@
 - Network troubleshooting  
 
 ### Verification
-- The VPN was verified using:
+The VPN was verified using:
 - show crypto isakmp sa
 - show crypto ipsec sa
 - show ip route
