@@ -1,4 +1,4 @@
-# Branch Office Site-to-Site IPsec VPN Lab
+## Branch Office Site-to-Site IPsec VPN Lab
 
 ## Objective
 This lab demonstrates how to configure a secure site-to-site IPsec VPN between two branch office networks through a simulated ISP network.
